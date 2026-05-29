@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: portfolio-larissa
+    env: static
+    buildCommand: echo ok
+    staticPublishPath: .

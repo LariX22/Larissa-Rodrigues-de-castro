@@ -1,0 +1,15 @@
+SITE PROFISSIONAL - LARISSA RODRIGUES DE CASTRO
+
+Arquivos principais:
+- index.html: abra este arquivo para visualizar o site.
+- assets/foto-larissa-rodrigues.jpg: foto usada no site.
+- assets/Larissa_Rodrigues_de_Castro_Curriculo.pdf: currículo disponível no botão de download.
+
+Atualização realizada:
+- A seção 'Principais Habilidades' recebeu as habilidades e competências do PDF enviado.
+- O botão 'Baixar Currículo' baixa o PDF atualizado.
+
+Como usar:
+1. Extraia o ZIP.
+2. Abra o arquivo index.html no navegador.
+3. Clique em 'Baixar Currículo' para testar o download do PDF.
