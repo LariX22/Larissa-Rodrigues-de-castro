@@ -12,6 +12,21 @@ colors:
   signal-blue: "#70c8ee"
   signal-blue-strong: "#3ba5d6"
   copper: "#e5a56a"
+  button-hover: "#a4e0fa"
+  secondary-button-border: "#476071"
+  circuit-line: "#32779a"
+  contact-border: "#3c5262"
+  light-background: "#f2f7fa"
+  light-background-deep: "#e4edf3"
+  light-surface: "#eaf2f7"
+  light-foreground: "#102331"
+  light-secondary-text: "#405969"
+  light-signal-blue: "#0879a8"
+  light-copper: "#89501f"
+  light-button-hover: "#06688f"
+  light-secondary-button-border: "#668191"
+  light-circuit-line: "#267894"
+  light-contact-border: "#76909f"
 typography:
   display:
     fontFamily: "Inter, Segoe UI, Arial, sans-serif"
@@ -56,32 +71,42 @@ components:
 
 **Creative North Star: "Circuito de confiança"**
 
-The portfolio treats professional experience as a clear signal path: the visitor can see the technical focus, follow the work history, and reach the curriculum or contact links without guesswork. Its visual language adapts the premium navy-and-copper reference requested by Larissa to computing, hardware, and technical support.
+The portfolio treats professional experience as a clear signal path: the visitor can see the technical focus, follow the work history, and reach the curriculum or contact links without guesswork. Its visual language adapts the premium navy-and-copper reference requested by Larissa to computing, hardware, and technical support, with a matching light theme and circuits spanning the page.
 
-Deep navy and graphite establish the working surface. Blue marks active routes and primary actions; copper appears as a restrained connection point. Circuit traces frame the portrait, while the experience timeline makes the career history the central proof.
+Both themes use translucent section surfaces so the full-page circuit network stays visible behind the content. Blue marks active routes and primary actions; copper appears as a restrained connection point. Animated signal dashes add motion to the circuitry, while the experience timeline makes the career history the central proof.
 
 **Key Characteristics:**
-- High-contrast navy surfaces with blue and copper accents.
+- Matching light and dark surfaces with blue routing and copper connection points.
 - Precise rectangular geometry and fine technical linework.
+- A persistent animated circuit backdrop, with reduced-motion support.
 - Verified curriculum content, without unsupported skill ratings.
 
 ## Colors
 
-The palette pairs a deep navy base with readable cool text, blue routing, and copper details.
+The two themes share the same semantic roles: blue routes and controls, copper marks nodes and secondary emphasis, and text/divider tokens keep content legible over translucent surfaces.
 
-### Primary
+### Dark
 - **Deep Navy** (#07131f): Main page background and navigation.
-- **Signal Blue** (#70c8ee): Primary actions, active navigation, and circuit emphasis.
-
-### Secondary
-- **Graphite Surface** (#0e1d2b): Raised content and contact panels.
-- **Copper Contact** (#e5a56a): Secondary emphasis, timeline dates, and circuit endpoints.
-
-### Neutral
 - **Deep Field** (#050d16): Footer and darkest background.
+- **Graphite Surface** (#0e1d2b): Section surface.
 - **Foreground** (#f3f6f7): Headings and primary text.
 - **Cool Secondary Text** (#b2c0ca): Supporting copy.
-- **Technical Divider** (#293d4d): Section and list separators.
+- **Signal Blue** (#70c8ee): Primary actions, active navigation, and circuit emphasis.
+- **Copper Contact** (#e5a56a): Secondary emphasis, timeline dates, and circuit endpoints.
+- **Blue Hover** (#a4e0fa): Hover fill for the primary action.
+
+### Light
+- **Cool Mist** (#f2f7fa): Main page background and navigation.
+- **Blue Gray** (#e4edf3): Deep surface and footer.
+- **Light Surface** (#eaf2f7): Section surface.
+- **Ink** (#102331) and **secondary text** (#405969): Main and supporting text.
+- **Signal Blue** (#0879a8): Actions, active navigation, and circuit emphasis.
+- **Copper** (#89501f): Circuit nodes and secondary emphasis.
+- **Deep Blue Hover** (#06688f): Hover fill for the primary action, retaining white-text contrast.
+
+### Shared
+- **Technical Divider** (#293d4d): Dark theme separators; light theme uses a softer blue-gray divider.
+- Circuit lines stay decorative and low-opacity so they do not compete with content.
 
 ## Typography
 
@@ -124,17 +149,21 @@ Components use square corners and clear rectangular silhouettes. One-pixel borde
 - **Hover / Focus:** Small vertical hover lift; keyboard focus uses a visible copper outline.
 
 ### Cards / Containers
-- **Background:** Solid navy or graphite surfaces.
+- **Background:** Theme-matched translucent navy or pale-blue surfaces.
 - **Border:** Fine slate or blue/copper framing lines.
 - **Internal Padding:** 24–30px for the contact panel; lists use open rows with separators.
 - **Shadow Strategy:** None; separate surfaces by tone and linework.
 
 ### Navigation
-- **Desktop:** Sticky dark bar with understated links and a blue underline for the active section.
+- **Desktop:** Sticky theme-matched bar with understated links and a blue underline for the active section.
 - **Mobile:** Collapsible vertical list controlled by a button with an updated `aria-expanded` state; Escape and link selection close it.
+- **Theme:** A labeled, keyboard-focusable control switches light/dark, follows system preference on first visit, and remembers an explicit choice.
 
 ### Experience Timeline
 - Dates sit beside a vertical line on wide screens and above each entry on mobile. The copper date and blue point markers make chronology scannable.
+
+### Circuit Backdrop
+A fixed, full-viewport SVG routes behind the page content. Low-opacity tracks and node points span the visible page; short dashed signal pulses travel along selected paths. Translucent section fills reveal the routes. `prefers-reduced-motion` keeps the network visible but static.
 
 ## Do's and Don'ts
 

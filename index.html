@@ -9,22 +9,87 @@
   <meta property="og:description" content="Experiência em informática, manutenção de computadores e suporte técnico." />
   <meta property="og:image" content="assets/foto-larissa-rodrigues.jpg" />
   <title>Larissa Rodrigues de Castro | Portfólio e Currículo</title>
+  <script>
+    try {
+      const savedTheme = localStorage.getItem('portfolio-theme');
+      document.documentElement.dataset.theme = savedTheme === 'light' || savedTheme === 'dark'
+        ? savedTheme
+        : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.querySelector('meta[name="theme-color"]').setAttribute(
+        'content',
+        document.documentElement.dataset.theme === 'light' ? '#f2f7fa' : '#07131f'
+      );
+    } catch (error) {
+      document.documentElement.dataset.theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      console.warn('Não foi possível recuperar a preferência de tema salva.', error);
+    }
+  </script>
   <style>
     :root {
       color-scheme: dark;
       --bg: #07131f;
       --bg-deep: #050d16;
       --surface: #0e1d2b;
-      --surface-raised: #142635;
+      --surface-raised: rgba(20, 38, 53, .92);
       --line: #293d4d;
       --text: #f3f6f7;
       --muted: #b2c0ca;
       --blue: #70c8ee;
       --blue-strong: #3ba5d6;
       --copper: #e5a56a;
+      --button-text: #06121d;
+      --button-hover: #a4e0fa;
+      --secondary-button-border: #476071;
+      --circuit: #70c8ee;
+      --circuit-line: #32779a;
+      --circuit-accent: #e5a56a;
+      --nav-bg: rgba(7, 19, 31, .88);
+      --nav-border: rgba(178, 192, 202, .15);
+      --band-bg: rgba(10, 25, 38, .72);
+      --section-bg: rgba(10, 24, 37, .68);
+      --footer-bg: rgba(5, 13, 22, .86);
+      --hero-wash: rgba(35, 100, 133, .2);
+      --hero-start: rgba(7, 19, 31, .84);
+      --hero-end: rgba(9, 24, 37, .72);
+      --portrait-bg: #172635;
+      --portrait-border: #536a7b;
+      --portrait-overlay: rgba(5, 13, 22, .82);
+      --contact-border: #3c5262;
       --max: 1180px;
       --mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
       --sans: Inter, "Segoe UI", Arial, sans-serif;
+    }
+
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f2f7fa;
+      --bg-deep: #e4edf3;
+      --surface: #eaf2f7;
+      --surface-raised: rgba(255, 255, 255, .92);
+      --line: #b9cbd6;
+      --text: #102331;
+      --muted: #405969;
+      --blue: #0879a8;
+      --blue-strong: #08688f;
+      --copper: #89501f;
+      --button-text: #ffffff;
+      --button-hover: #06688f;
+      --secondary-button-border: #668191;
+      --circuit: #1684ad;
+      --circuit-line: #267894;
+      --circuit-accent: #a45b25;
+      --nav-bg: rgba(242, 247, 250, .88);
+      --nav-border: rgba(16, 35, 49, .16);
+      --band-bg: rgba(228, 238, 244, .72);
+      --section-bg: rgba(234, 242, 247, .68);
+      --footer-bg: rgba(228, 237, 243, .86);
+      --hero-wash: rgba(54, 153, 190, .12);
+      --hero-start: rgba(242, 247, 250, .84);
+      --hero-end: rgba(224, 238, 246, .72);
+      --portrait-bg: #dce8ee;
+      --portrait-border: #7893a3;
+      --portrait-overlay: rgba(5, 13, 22, .72);
+      --contact-border: #76909f;
     }
 
     * { box-sizing: border-box; }
@@ -32,11 +97,13 @@
     body {
       margin: 0;
       min-width: 0;
+      isolation: isolate;
       background: var(--bg);
       color: var(--text);
       font-family: var(--sans);
       line-height: 1.65;
     }
+    main { position: relative; z-index: 1; }
     a { color: inherit; }
     a:focus-visible, button:focus-visible { outline: 3px solid var(--copper); outline-offset: 4px; }
     svg { display: block; }
@@ -54,13 +121,20 @@
     }
     .skip-link:focus { transform: translateY(0); }
     .scroll-line { position: fixed; z-index: 15; top: 0; left: 0; height: 2px; width: 0; background: var(--blue); }
+    .circuit-backdrop { position: fixed; z-index: 0; inset: 0; overflow: hidden; opacity: .6; pointer-events: none; }
+    .circuit-backdrop svg { width: 100%; height: 100%; }
+    .circuit-base { fill: none; stroke: var(--circuit); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+    .circuit-node { fill: var(--bg); stroke: var(--circuit-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+    .circuit-pulse { fill: none; stroke: var(--circuit-accent); stroke-width: 2; stroke-dasharray: 3 440; stroke-linecap: round; vector-effect: non-scaling-stroke; animation: circuit-flow 18s linear infinite; }
+    .circuit-pulse:nth-of-type(2) { stroke: var(--blue); animation-delay: -9s; }
+    @keyframes circuit-flow { to { stroke-dashoffset: -443; } }
 
     .site-nav {
       position: sticky;
       z-index: 10;
       top: 0;
-      border-bottom: 1px solid rgba(178, 192, 202, .15);
-      background: #07131f;
+      border-bottom: 1px solid var(--nav-border);
+      background: var(--nav-bg);
     }
     .nav-inner { display: flex; min-height: 78px; align-items: center; justify-content: space-between; gap: 30px; }
     .brand { display: inline-flex; min-width: max-content; align-items: center; gap: 12px; text-decoration: none; }
@@ -85,6 +159,10 @@
     .nav-link.active::after { position: absolute; right: 0; bottom: 1px; left: 0; height: 2px; background: var(--blue); content: ""; }
     .nav-actions { display: flex; align-items: center; gap: 12px; }
     .menu-toggle { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; border: 1px solid var(--line); background: transparent; color: var(--text); cursor: pointer; }
+    .theme-toggle { display: inline-flex; width: 44px; height: 44px; flex: 0 0 auto; align-items: center; justify-content: center; border: 1px solid var(--line); background: transparent; color: var(--text); cursor: pointer; transition: border-color .2s ease, color .2s ease; }
+    .theme-toggle:hover { border-color: var(--blue); color: var(--blue); }
+    .theme-toggle svg { width: 19px; height: 19px; }
+    :root[data-theme="dark"] .theme-icon-moon, :root[data-theme="light"] .theme-icon-sun { display: none; }
 
     .button {
       display: inline-flex;
@@ -101,9 +179,9 @@
     }
     .button:hover { transform: translateY(-2px); }
     .button svg { width: 18px; height: 18px; flex: 0 0 auto; }
-    .button-primary { background: var(--blue); color: #06121d; }
-    .button-primary:hover { background: #a4e0fa; }
-    .button-secondary { border-color: #476071; color: var(--text); }
+    .button-primary { background: var(--blue); color: var(--button-text); }
+    .button-primary:hover { background: var(--button-hover); }
+    .button-secondary { border-color: var(--secondary-button-border); color: var(--text); }
     .button-secondary:hover { border-color: var(--blue); background: rgba(112, 200, 238, .08); }
 
     .hero {
@@ -111,7 +189,7 @@
       overflow: hidden;
       padding: clamp(58px, 8vw, 110px) 0 92px;
       border-bottom: 1px solid var(--line);
-      background: radial-gradient(ellipse at 77% 42%, rgba(35, 100, 133, .2), transparent 38%), linear-gradient(115deg, rgba(7, 19, 31, .98), rgba(9, 24, 37, .88));
+      background: radial-gradient(ellipse at 77% 42%, var(--hero-wash), transparent 38%), linear-gradient(115deg, var(--hero-start), var(--hero-end));
     }
     .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(300px, .82fr); align-items: center; gap: clamp(48px, 8vw, 110px); }
     .hero-copy { position: relative; z-index: 1; }
@@ -132,17 +210,17 @@
     .portrait-stage::before, .portrait-stage::after { position: absolute; z-index: 0; width: 64px; height: 64px; border-color: var(--blue-strong); content: ""; }
     .portrait-stage::before { top: 0; left: 0; border-top: 1px solid; border-left: 1px solid; }
     .portrait-stage::after { right: 0; bottom: 25px; border-right: 1px solid var(--copper); border-bottom: 1px solid var(--copper); }
-    .portrait-frame { position: relative; z-index: 1; overflow: hidden; width: min(100%, 340px); aspect-ratio: 4 / 5; margin: 0; border: 1px solid #536a7b; background: #172635; }
+    .portrait-frame { position: relative; z-index: 1; overflow: hidden; width: min(100%, 340px); aspect-ratio: 4 / 5; margin: 0; border: 1px solid var(--portrait-border); background: var(--portrait-bg); }
     .portrait-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; filter: saturate(.82) contrast(1.02); }
-    .portrait-frame::after { position: absolute; inset: 55% 0 0; background: linear-gradient(transparent, rgba(5, 13, 22, .82)); content: ""; pointer-events: none; }
-    .portrait-caption { position: absolute; z-index: 2; right: 14px; bottom: 13px; left: 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-family: var(--mono); font-size: .64rem; letter-spacing: .08em; text-transform: uppercase; }
+    .portrait-frame::after { position: absolute; inset: 55% 0 0; background: linear-gradient(transparent, var(--portrait-overlay)); content: ""; pointer-events: none; }
+    .portrait-caption { position: absolute; z-index: 2; right: 14px; bottom: 13px; left: 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #f3f6f7; font-family: var(--mono); font-size: .64rem; letter-spacing: .08em; text-transform: uppercase; }
     .portrait-caption span:last-child { color: var(--blue); }
     .circuit-art { position: absolute; z-index: 0; top: 2%; right: -15%; width: 118%; height: 108%; overflow: visible; pointer-events: none; }
-    .circuit-art path, .circuit-art circle { fill: none; stroke: #32779a; stroke-width: 1; vector-effect: non-scaling-stroke; }
+    .circuit-art path, .circuit-art circle { fill: none; stroke: var(--circuit-line); stroke-width: 1; vector-effect: non-scaling-stroke; }
     .circuit-art .signal { stroke: var(--copper); stroke-dasharray: 220; stroke-dashoffset: 220; animation: trace-in 1.6s cubic-bezier(.16, 1, .3, 1) .25s forwards; }
     @keyframes trace-in { to { stroke-dashoffset: 0; } }
 
-    .focus-band { border-bottom: 1px solid var(--line); background: #0a1926; }
+    .focus-band { border-bottom: 1px solid var(--line); background: var(--band-bg); }
     .focus-list { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; padding: 0; list-style: none; }
     .focus-list li { position: relative; display: flex; min-height: 92px; align-items: center; gap: 15px; padding: 18px 26px; border-right: 1px solid var(--line); }
     .focus-list li:first-child { padding-left: 0; }
@@ -156,7 +234,7 @@
     .section-heading p { max-width: 64ch; margin-bottom: 0; color: var(--muted); font-size: 1rem; }
     .section-heading .heading-rule { display: block; width: 52px; height: 2px; margin-top: 22px; background: var(--blue); }
 
-    .education { background: #0a1825; }
+    .education { background: var(--section-bg); }
     .education-layout { display: grid; grid-template-columns: .7fr 1.3fr; gap: clamp(40px, 9vw, 120px); }
     .education .section-heading { position: sticky; top: 120px; align-self: start; margin-bottom: 0; }
     .education-list { margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
@@ -179,7 +257,7 @@
     .timeline-content p { max-width: 58ch; margin-bottom: 0; color: var(--muted); font-size: .95rem; }
     .timeline-place { color: var(--text); }
 
-    .practice { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: #0a1825; }
+    .practice { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--section-bg); }
     .practice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line); }
     .practice-item { padding: 26px 28px 26px 0; }
     .practice-item + .practice-item { padding-left: 28px; border-left: 1px solid var(--line); }
@@ -195,12 +273,12 @@
     .contact-label { color: var(--blue); font-family: var(--mono); font-size: .72rem; text-transform: uppercase; }
     .contact-value { color: var(--text); overflow-wrap: anywhere; }
     .contact-item:hover .contact-value { color: var(--copper); }
-    .contact-cta { padding: 30px; border: 1px solid #3c5262; background: var(--surface-raised); }
+    .contact-cta { padding: 30px; border: 1px solid var(--contact-border); background: var(--surface-raised); }
     .contact-cta h3 { margin-bottom: 12px; font-size: 1.42rem; letter-spacing: -.025em; }
     .contact-cta p { margin-bottom: 22px; color: var(--muted); }
     .contact-cta .button { width: 100%; }
 
-    .footer { padding: 28px 0; border-top: 1px solid var(--line); background: var(--bg-deep); }
+    .footer { position: relative; z-index: 1; padding: 28px 0; border-top: 1px solid var(--line); background: var(--footer-bg); }
     .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
     .footer p { margin: 0; color: var(--muted); font-size: .78rem; }
     .footer a { color: var(--blue); font-size: .8rem; text-decoration: none; }
@@ -226,6 +304,7 @@
       .nav-actions { margin-left: auto; }
       .nav-actions .button { min-height: 42px; padding-inline: 11px; font-size: .76rem; }
       .nav-actions .button svg { width: 16px; height: 16px; }
+      .theme-toggle { width: 42px; height: 42px; }
       .menu-toggle { display: inline-flex; }
       .nav-menu {
         position: absolute;
@@ -237,10 +316,10 @@
         gap: 0;
         padding: 8px 18px 14px;
         border-bottom: 1px solid var(--line);
-        background: var(--bg);
+        background: var(--nav-bg);
       }
       .menu-open .nav-menu { display: flex; flex-direction: column; }
-      .nav-menu li { border-bottom: 1px solid rgba(178, 192, 202, .12); }
+      .nav-menu li { border-bottom: 1px solid var(--line); }
       .nav-menu li:last-child { border-bottom: 0; }
       .nav-link { display: block; padding: 12px 0; font-size: .9rem !important; }
       .nav-link.active::after { right: auto; width: 36px; }
@@ -277,19 +356,23 @@
     }
     @media (max-width: 420px) {
       .container { width: calc(100% - 28px); }
-      .brand { gap: 8px; }
-      .brand-copy strong { max-width: 130px; font-size: .76rem; }
-      .brand-copy span { letter-spacing: .04em; }
-      .nav-actions { gap: 7px; }
+      .nav-inner { gap: 8px; }
+      .brand { min-width: 0; gap: 8px; }
+      .brand-copy { min-width: 0; }
+      .brand-copy strong { max-width: 90px; font-size: .76rem; }
+      .brand-copy span { max-width: 90px; letter-spacing: .04em; }
+      .nav-actions { gap: 5px; }
       .nav-actions .button { display: none; }
       .menu-toggle { width: 40px; height: 42px; }
+      .theme-toggle { width: 40px; height: 42px; }
       .hero-actions { align-items: stretch; flex-direction: column; }
       .hero-actions .button { width: 100%; }
       .hero-fact { font-size: .8rem; }
     }
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-      .circuit-art .signal { stroke-dashoffset: 0; }
+      html { scroll-behavior: auto; }
+      .circuit-pulse, .circuit-art .signal { animation: none; stroke-dashoffset: 0; }
+      .button, .nav-link, .theme-toggle { transition: none; }
     }
   </style>
 </head>
@@ -297,10 +380,38 @@
   <!-- THESIS: A technician's portfolio should read like a clear signal path, not a generic CV template.
   OWN-WORLD: Deep navy and graphite panels, precise circuit traces, electric blue routing, and copper contact points.
   STORY: Visitors see Larissa's verified IT work, follow her experience and training, then open the PDF or contact her.
-  FIRST VIEWPORT: Name and role on the left; portrait framed by a circuit diagram on the right; PDF and email actions beneath the introduction.
-  FORM: A timeline-led professional portfolio, adapted from the user's João Paulo reference to computing, hardware, and technical support. -->
+  FIRST VIEWPORT: Name and role on the left; portrait framed by circuit diagrams on the right; theme control and PDF/email actions within reach.
+  FORM: A timeline-led portfolio with an animated circuit field across the full page and an accessible light/dark theme switch. -->
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
   <div class="scroll-line" id="scrollLine" aria-hidden="true"></div>
+  <div class="circuit-backdrop" aria-hidden="true">
+    <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+      <g class="circuit-base">
+        <path d="M-50 120h190l44 44h160v92h90l48-48h210v-78h154l42 42h180"/>
+        <path d="M-30 356h126l46-46h124v-92h120l48 48h170v88h176l48-48h160v-98h190"/>
+        <path d="M80-40v182l52 52v142l-48 48v178h190l48 48v128h146"/>
+        <path d="M442-30v116l66 66v112h156l44 44v154h120l52-52h130v-110l58-58h142"/>
+        <path d="M840-20v132l-54 54v122h134l56 56v174h156l40-40h168v-128l54-54h248"/>
+        <path d="M1210-40v158l-60 60v138h158l48 48v120h170"/>
+        <path d="M-60 712h184l54-54h132v-96l60-60h154l50 50v130h172l48-48h158v-96l62-62h196"/>
+        <path d="M-40 904h204l56-56h178v-98l52-52h126l54 54v98h152l54-54h168v-98l50-50h260"/>
+        <path d="M310 1040V890l58-58V700l-50-50V506"/>
+        <path d="M690 1040V920l54-54V744l-48-48V572"/>
+        <path d="M1080 1040V904l54-54V720l-48-48V528"/>
+        <path d="M1450 1040V878l-52-52V670l54-54V468"/>
+      </g>
+      <g>
+        <path class="circuit-pulse" d="M-50 120h190l44 44h160l52 52h86l48-48h210l42 42h160"/>
+        <path class="circuit-pulse" d="M-60 712h184l54-54h132v-96l60-60h154l50 50v130h172l48-48h158"/>
+      </g>
+      <g class="circuit-node">
+        <circle cx="140" cy="120" r="4"/><circle cx="394" cy="164" r="4"/><circle cx="576" cy="256" r="4"/>
+        <circle cx="350" cy="218" r="4"/><circle cx="580" cy="310" r="4"/><circle cx="964" cy="356" r="4"/>
+        <circle cx="132" cy="658" r="4"/><circle cx="470" cy="502" r="4"/><circle cx="744" cy="792" r="4"/>
+        <circle cx="1040" cy="646" r="4"/><circle cx="1398" cy="826" r="4"/><circle cx="310" cy="506" r="4"/>
+      </g>
+    </svg>
+  </div>
 
   <nav class="site-nav" aria-label="Navegação principal">
     <div class="container nav-inner">
@@ -316,6 +427,10 @@
         <li><a class="nav-link" href="#contato">Contato</a></li>
       </ul>
       <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Ativar tema claro" title="Ativar tema claro">
+          <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+          <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20.2 15.4A8.5 8.5 0 0 1 8.6 3.8 8.5 8.5 0 1 0 20.2 15.4Z"/></svg>
+        </button>
         <a class="button button-primary" href="assets/Larissa_Rodrigues_de_Castro_Curriculo.pdf" download="Larissa_Rodrigues_de_Castro_Curriculo.pdf" aria-label="Baixar currículo em PDF">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v4h14v-4"/></svg>
           <span>Currículo PDF</span>
@@ -485,7 +600,29 @@
 
   <script>
     const menuToggle = document.getElementById('menuToggle');
+    const themeToggle = document.getElementById('themeToggle');
+    const themeColor = document.querySelector('meta[name="theme-color"]');
     const navLinks = [...document.querySelectorAll('.nav-link')];
+
+    function setTheme(theme, persist = false) {
+      document.documentElement.dataset.theme = theme;
+      const nextTheme = theme === 'dark' ? 'claro' : 'escuro';
+      themeToggle.setAttribute('aria-label', `Ativar tema ${nextTheme}`);
+      themeToggle.setAttribute('title', `Ativar tema ${nextTheme}`);
+      themeColor.setAttribute('content', theme === 'dark' ? '#07131f' : '#f2f7fa');
+      if (persist) {
+        try {
+          localStorage.setItem('portfolio-theme', theme);
+        } catch (error) {
+          console.warn('Não foi possível salvar a preferência de tema.', error);
+        }
+      }
+    }
+
+    setTheme(document.documentElement.dataset.theme || 'dark');
+    themeToggle.addEventListener('click', () => {
+      setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark', true);
+    });
 
     function closeMenu() {
       document.body.classList.remove('menu-open');
