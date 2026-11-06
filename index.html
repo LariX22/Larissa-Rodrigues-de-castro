@@ -93,7 +93,7 @@
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    html { overflow-x: clip; scroll-behavior: smooth; scroll-padding-top: 90px; }
     body {
       margin: 0;
       min-width: 0;
@@ -125,9 +125,15 @@
     .circuit-backdrop svg { width: 100%; height: 100%; }
     .circuit-base { fill: none; stroke: var(--circuit); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
     .circuit-node { fill: var(--bg); stroke: var(--circuit-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
-    .circuit-pulse { fill: none; stroke: var(--circuit-accent); stroke-width: 2; stroke-dasharray: 3 440; stroke-linecap: round; vector-effect: non-scaling-stroke; animation: circuit-flow 18s linear infinite; }
-    .circuit-pulse:nth-of-type(2) { stroke: var(--blue); animation-delay: -9s; }
-    @keyframes circuit-flow { to { stroke-dashoffset: -443; } }
+    .circuit-node circle { animation: node-signal 2.8s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+    .circuit-node circle:nth-child(3n) { animation-delay: -.9s; }
+    .circuit-node circle:nth-child(3n + 1) { animation-delay: -1.8s; }
+    .circuit-pulse { fill: none; stroke: var(--circuit-accent); stroke-width: 2.4; stroke-dasharray: 10 990; stroke-linecap: round; vector-effect: non-scaling-stroke; animation: circuit-flow 10s linear infinite; }
+    .circuit-pulse:nth-of-type(2) { stroke: var(--blue); animation-delay: -5s; }
+    .circuit-pulse:nth-of-type(3) { stroke: var(--blue); animation-delay: -2.5s; }
+    .circuit-pulse:nth-of-type(4) { animation-delay: -7.5s; }
+    @keyframes circuit-flow { to { stroke-dashoffset: -1000; } }
+    @keyframes node-signal { from { opacity: .48; } to { opacity: 1; } }
 
     .site-nav {
       position: sticky;
@@ -156,12 +162,14 @@
     .nav-menu { display: flex; align-items: center; gap: clamp(14px, 2vw, 28px); margin: 0; padding: 0; list-style: none; }
     .nav-link { position: relative; padding: 9px 0; color: var(--muted); font-size: .85rem; text-decoration: none; transition: color .2s ease; }
     .nav-link:hover, .nav-link.active { color: var(--text); }
-    .nav-link.active::after { position: absolute; right: 0; bottom: 1px; left: 0; height: 2px; background: var(--blue); content: ""; }
+    .nav-link::after { position: absolute; right: 0; bottom: 1px; left: 0; height: 2px; transform: scaleX(0); transform-origin: right; background: var(--blue); content: ""; transition: transform .32s cubic-bezier(.16, 1, .3, 1); }
+    .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); transform-origin: left; }
     .nav-actions { display: flex; align-items: center; gap: 12px; }
     .menu-toggle { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; border: 1px solid var(--line); background: transparent; color: var(--text); cursor: pointer; }
     .theme-toggle { display: inline-flex; width: 44px; height: 44px; flex: 0 0 auto; align-items: center; justify-content: center; border: 1px solid var(--line); background: transparent; color: var(--text); cursor: pointer; transition: border-color .2s ease, color .2s ease; }
     .theme-toggle:hover { border-color: var(--blue); color: var(--blue); }
-    .theme-toggle svg { width: 19px; height: 19px; }
+    .theme-toggle svg { width: 19px; height: 19px; transition: transform .35s cubic-bezier(.16, 1, .3, 1); }
+    .theme-toggle:active svg { transform: rotate(35deg) scale(.84); }
     :root[data-theme="dark"] .theme-icon-moon, :root[data-theme="light"] .theme-icon-sun { display: none; }
 
     .button {
@@ -177,12 +185,16 @@
       text-decoration: none;
       transition: background .2s ease, border-color .2s ease, transform .2s ease;
     }
-    .button:hover { transform: translateY(-2px); }
+    .button:hover { transform: translateY(-3px); }
+    .button:active { transform: translateY(0) scale(.98); }
     .button svg { width: 18px; height: 18px; flex: 0 0 auto; }
     .button-primary { background: var(--blue); color: var(--button-text); }
     .button-primary:hover { background: var(--button-hover); }
     .button-secondary { border-color: var(--secondary-button-border); color: var(--text); }
     .button-secondary:hover { border-color: var(--blue); background: rgba(112, 200, 238, .08); }
+    .button svg { transition: transform .24s cubic-bezier(.16, 1, .3, 1); }
+    .button:hover svg { transform: translateY(2px); }
+    .button-secondary:hover svg { transform: translateX(3px); }
 
     .hero {
       position: relative;
@@ -233,12 +245,16 @@
     .section-heading h2 { margin-bottom: 14px; font-size: clamp(2.2rem, 4.5vw, 3.8rem); font-weight: 620; letter-spacing: -.055em; line-height: 1.05; }
     .section-heading p { max-width: 64ch; margin-bottom: 0; color: var(--muted); font-size: 1rem; }
     .section-heading .heading-rule { display: block; width: 52px; height: 2px; margin-top: 22px; background: var(--blue); }
+    .motion-ready .section-heading .heading-rule { transform: scaleX(0); transform-origin: left; transition: transform .75s cubic-bezier(.16, 1, .3, 1); }
+    .motion-ready .section-heading.is-visible .heading-rule { transform: scaleX(1); }
 
     .education { background: var(--section-bg); }
     .education-layout { display: grid; grid-template-columns: .7fr 1.3fr; gap: clamp(40px, 9vw, 120px); }
     .education .section-heading { position: sticky; top: 120px; align-self: start; margin-bottom: 0; }
     .education-list { margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
     .education-item { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 20px; padding: 23px 0; border-bottom: 1px solid var(--line); }
+    .education-item > span:first-child { transition: color .3s ease, transform .45s cubic-bezier(.16, 1, .3, 1); }
+    .education-item.is-visible > span:first-child { color: var(--copper); transform: translateX(4px); }
     .education-year { padding-top: 3px; color: var(--blue); font-family: var(--mono); font-size: .77rem; }
     .education-item h3 { margin-bottom: 6px; font-size: 1.08rem; font-weight: 620; }
     .education-item p { margin-bottom: 0; color: var(--muted); font-size: .91rem; }
@@ -251,6 +267,8 @@
     .timeline-entry { position: relative; display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 44px; padding: 0 0 42px; }
     .timeline-entry:last-child { padding-bottom: 0; }
     .timeline-entry::before { position: absolute; top: 6px; left: 127px; width: 11px; height: 11px; border: 2px solid var(--bg); background: var(--blue); content: ""; }
+    .timeline-entry::before { transition: background .3s ease, box-shadow .3s ease, transform .45s cubic-bezier(.16, 1, .3, 1); }
+    .timeline-entry.is-visible::before { transform: scale(1.35); background: var(--copper); }
     .timeline-date { color: var(--copper); font-family: var(--mono); font-size: .73rem; line-height: 1.6; }
     .timeline-content h3 { margin: 0 0 4px; font-size: 1.2rem; font-weight: 650; }
     .timeline-role { margin-bottom: 12px; color: var(--blue); font-size: .88rem; }
@@ -270,6 +288,8 @@
     .contact-layout .section-heading { margin-bottom: 30px; }
     .contact-list { display: grid; gap: 0; margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
     .contact-item { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+    .contact-item { transition: color .2s ease, transform .3s cubic-bezier(.16, 1, .3, 1); }
+    .contact-item:hover { transform: translateX(6px); }
     .contact-label { color: var(--blue); font-family: var(--mono); font-size: .72rem; text-transform: uppercase; }
     .contact-value { color: var(--text); overflow-wrap: anywhere; }
     .contact-item:hover .contact-value { color: var(--copper); }
@@ -304,7 +324,7 @@
       .nav-actions { margin-left: auto; }
       .nav-actions .button { min-height: 42px; padding-inline: 11px; font-size: .76rem; }
       .nav-actions .button svg { width: 16px; height: 16px; }
-      .theme-toggle { width: 42px; height: 42px; }
+      .theme-toggle { width: 44px; height: 44px; }
       .menu-toggle { display: inline-flex; }
       .nav-menu {
         position: absolute;
@@ -318,7 +338,8 @@
         border-bottom: 1px solid var(--line);
         background: var(--nav-bg);
       }
-      .menu-open .nav-menu { display: flex; flex-direction: column; }
+      .menu-open .nav-menu { display: flex; flex-direction: column; animation: menu-signal-in .26s cubic-bezier(.16, 1, .3, 1) both; }
+      @keyframes menu-signal-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
       .nav-menu li { border-bottom: 1px solid var(--line); }
       .nav-menu li:last-child { border-bottom: 0; }
       .nav-link { display: block; padding: 12px 0; font-size: .9rem !important; }
@@ -363,16 +384,33 @@
       .brand-copy span { max-width: 90px; letter-spacing: .04em; }
       .nav-actions { gap: 5px; }
       .nav-actions .button { display: none; }
-      .menu-toggle { width: 40px; height: 42px; }
-      .theme-toggle { width: 40px; height: 42px; }
+      .menu-toggle { width: 44px; height: 44px; }
+      .theme-toggle { width: 44px; height: 44px; }
       .hero-actions { align-items: stretch; flex-direction: column; }
       .hero-actions .button { width: 100%; }
       .hero-fact { font-size: .8rem; }
     }
+    .motion-reveal { --reveal-delay: 0ms; }
+    .motion-ready .motion-reveal { transition-delay: var(--reveal-delay); }
+    .motion-ready .hero-copy .motion-reveal:not(.is-visible),
+    .motion-ready .section-heading.motion-reveal:not(.is-visible) { opacity: 0; transform: translateY(18px); }
+    .motion-ready .portrait-stage.motion-reveal:not(.is-visible),
+    .motion-ready .education-item.motion-reveal:not(.is-visible),
+    .motion-ready .practice-item.motion-reveal:not(.is-visible),
+    .motion-ready .contact-cta.motion-reveal:not(.is-visible) { opacity: 0; transform: translateX(24px); }
+    .motion-ready .focus-list li.motion-reveal:not(.is-visible),
+    .motion-ready .timeline-entry.motion-reveal:not(.is-visible),
+    .motion-ready .contact-list li.motion-reveal:not(.is-visible) { opacity: 0; transform: translateX(-24px); }
+    .motion-ready .motion-reveal { transition: opacity .65s cubic-bezier(.16, 1, .3, 1), transform .8s cubic-bezier(.16, 1, .3, 1); }
+    .motion-ready .motion-reveal.is-visible, .motion-ready .motion-reveal:focus-within { opacity: 1; transform: none; }
+    .page-paused .circuit-pulse, .page-paused .circuit-art .signal, .page-paused .circuit-node circle { animation-play-state: paused; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .circuit-pulse, .circuit-art .signal { animation: none; stroke-dashoffset: 0; }
-      .button, .nav-link, .theme-toggle { transition: none; }
+      .circuit-pulse, .circuit-art .signal, .circuit-node circle { animation: none; stroke-dashoffset: 0; }
+      html[data-theme] .motion-ready .motion-reveal:not(.is-visible) { opacity: 1; transform: none; transition: none; }
+      .motion-ready .section-heading .heading-rule { transform: none; transition: none; }
+      .button, .button svg, .nav-link, .nav-link::after, .theme-toggle, .theme-toggle svg, .contact-item, .timeline-entry::before { transition: none; }
+      .menu-open .nav-menu { animation: none; }
     }
   </style>
 </head>
@@ -401,8 +439,10 @@
         <path d="M1450 1040V878l-52-52V670l54-54V468"/>
       </g>
       <g>
-        <path class="circuit-pulse" d="M-50 120h190l44 44h160l52 52h86l48-48h210l42 42h160"/>
-        <path class="circuit-pulse" d="M-60 712h184l54-54h132v-96l60-60h154l50 50v130h172l48-48h158"/>
+        <path class="circuit-pulse" pathLength="1000" d="M-50 120h190l44 44h160l52 52h86l48-48h210l42 42h160"/>
+        <path class="circuit-pulse" pathLength="1000" d="M-60 712h184l54-54h132v-96l60-60h154l50 50v130h172l48-48h158"/>
+        <path class="circuit-pulse" pathLength="1000" d="M442-30v116l66 66v112h156l44 44v154h120l52-52h130v-110l58-58h142"/>
+        <path class="circuit-pulse" pathLength="1000" d="M840-20v132l-54 54v122h134l56 56v174h156l40-40h168"/>
       </g>
       <g class="circuit-node">
         <circle cx="140" cy="120" r="4"/><circle cx="394" cy="164" r="4"/><circle cx="576" cy="256" r="4"/>
@@ -642,6 +682,38 @@
     const sections = [...document.querySelectorAll('header[id], main section[id]')];
     const scrollLine = document.getElementById('scrollLine');
     let scrollPending = false;
+
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if ('IntersectionObserver' in window && !motionPreference.matches) {
+      const revealGroups = [
+        { selector: '.hero-copy > .hero-kicker, .hero-copy > h1, .hero-copy > .hero-role, .hero-copy > .hero-lead, .hero-copy > .hero-actions, .hero-copy > .hero-facts', step: 90 },
+        { selector: '.portrait-stage, .section-heading, .contact-cta', step: 0 },
+        { selector: '.focus-list li, .education-item, .timeline-entry, .practice-item, .contact-list li', step: 85 }
+      ];
+      const observer = new IntersectionObserver((entries, currentObserver) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            currentObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .12, rootMargin: '0px 0px -48px 0px' });
+
+      revealGroups.forEach(({ selector, step }) => {
+        const elements = [...document.querySelectorAll(selector)];
+        elements.forEach((element, index) => {
+          element.classList.add('motion-reveal');
+          element.style.setProperty('--reveal-delay', `${Math.min(index * step, 340)}ms`);
+          observer.observe(element);
+        });
+      });
+      document.documentElement.classList.add('motion-ready');
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      document.body.classList.toggle('page-paused', document.visibilityState === 'hidden');
+    });
+
     function updateScrollState() {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       scrollLine.style.width = `${maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0}%`;

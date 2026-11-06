@@ -79,6 +79,7 @@ Both themes use translucent section surfaces so the full-page circuit network st
 - Matching light and dark surfaces with blue routing and copper connection points.
 - Precise rectangular geometry and fine technical linework.
 - A persistent animated circuit backdrop, with reduced-motion support.
+- A one-time signal journey from the hero through training, experience, and contact.
 - Verified curriculum content, without unsupported skill ratings.
 
 ## Colors
@@ -163,7 +164,10 @@ Components use square corners and clear rectangular silhouettes. One-pixel borde
 - Dates sit beside a vertical line on wide screens and above each entry on mobile. The copper date and blue point markers make chronology scannable.
 
 ### Circuit Backdrop
-A fixed, full-viewport SVG routes behind the page content. Low-opacity tracks and node points span the visible page; short dashed signal pulses travel along selected paths. Translucent section fills reveal the routes. `prefers-reduced-motion` keeps the network visible but static.
+A fixed, full-viewport SVG routes behind the page content. Low-opacity tracks and node points span the visible page; short dashed signal pulses travel along selected paths, with the animation paused when the tab is hidden. Translucent section fills reveal the routes.
+
+### Motion
+The hero introduces Larissa's role, contact action, and portrait in a single staggered signal sequence. As visitors scroll, headings draw their blue routing line and education, career, and contact items arrive in reading order. Small circuit nodes pulse, buttons respond to hover/press, the active navigation route draws into place, and the mobile menu opens along a short vertical path. Observed elements animate once and then remain still. The content is visible without JavaScript, and `prefers-reduced-motion` disables motion while preserving every item and state.
 
 ## Do's and Don'ts
 
